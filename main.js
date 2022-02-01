@@ -305,11 +305,20 @@ var board=[row1,row2,row3];
 
 canvasElem.addEventListener("mousedown", function(e)
 {
-    getMousePosition(canvasElem, e, click_coords);
-    var result=drawSymbol(mouse_click_count);
-    if(result==1){
-        mouse_click_count++;
-        gameLogic(board,mouse_click_count);
-        mouse_click_count++;
+    var cnt=0;
+    for(let i=0; i<3;i++){
+        for(let j=0;j<3;j++){
+            if (board[j][i]!=0){
+                cnt++;
+            }
+        }
     }
+    if(document.getElementById("start").value!="Start Game!"&&cnt!=9)
+        getMousePosition(canvasElem, e, click_coords);
+        var result=drawSymbol(mouse_click_count);
+        if(result==1){
+            mouse_click_count++;
+            gameLogic(board,mouse_click_count);
+            mouse_click_count++;
+        }
 });
