@@ -43,13 +43,15 @@ function drawSymbol(mouse_click_count)
         if(click_coords.x_coord>canvas.width*i/3 && click_coords.x_coord<canvas.width*(i+1)/3){
             for (let j = 0; j < 3; j++) {
                 if(click_coords.y_coord>canvas.height*j/3 && click_coords.y_coord<canvas.height*(j+1)/3){
-                    if(mouse_click_count%2==0){  //circle
-                        drawCircle(i,j);
+                    if(board[j][i]==0){
+                        if(mouse_click_count%2==0){  //circle
+                            drawCircle(i,j);
+                        }
+                        else{     //cross
+                            drawX(i,j);
+                        }
+                        return 1;
                     }
-                    else{     //cross
-                        drawX(i,j);
-                    }
-                    return 1;
                 }
             }
         }
