@@ -10,6 +10,7 @@ function resetBoard(){
     mouse_click_count=0;
     var button = document.getElementById("start");
     if (button.value=="Start Game!") button.value = "Reset?";
+    document.getElementById("text").innerHTML="";
 }
 
 function drawBoard()
@@ -87,6 +88,9 @@ function drawX(i,j){
 }
 
 function gameLogic(board,mouse_click_count){
+    if (checkWinHuman(board)){
+        document.getElementById("text").innerHTML="wow you actually won";
+    }
     var count=0;
     var turn_no=1;
     for(let i=0; i<3;i++){
@@ -97,8 +101,7 @@ function gameLogic(board,mouse_click_count){
         }
     }
     if(turn_no==10){
-        console.log("GAME OVER");
-        console.log("its a tie lol");
+        document.getElementById("text").innerHTML="its a tie!";
     }
     if(board[1][1]==0&&count==0&&turn_no==2){
         drawX(1,1);
@@ -113,8 +116,6 @@ function gameLogic(board,mouse_click_count){
             if(checkWinCondition(board,i,j)!=9999){
                 if(checkWinCondition(board,i,j)<0&&count==0){
                     drawX(i,j);
-                    console.log("GAME OVER");
-                    console.log("you lose hahaha");
                     count=1;
                 }
             }
@@ -181,6 +182,9 @@ function gameLogic(board,mouse_click_count){
             }
         }
     }
+    if (checkWinBot(board)){
+        document.getElementById("text").innerHTML="you lost hahahaha";
+    }
 }
 
 function checkWinCondition(board,i,j){
@@ -205,6 +209,58 @@ function checkWinCondition(board,i,j){
 
     }
     else return 9999;
+}
+
+function checkWinBot(board){
+    for(let i=0; i<3;i++){
+        for(let j=0;j<3;j++){
+            if (board[j][i]==-1){
+                var x=board[(j+1)%3][i];
+                if(x==-1&&board[(j+1)%3][i]==x&&board[(j+2)%3][i]==x){
+                    return 1;
+                }
+                var y=board[j][(i+1)%3];
+                if(y==-1&&board[j][(i+1)%3]==y&&board[j][(i+2)%3]==y){
+                    return 1;
+                }
+                var z=board[(j+1)%3][(i+1)%3];
+                if(z==-1&&i==j&&board[(j+1)%3][(i+1)%3]==z&&board[(j+2)%3][(i+2)%3]==z){
+                    return 1;
+                }
+                var w=board[(j+2)%3][(i+1)%3];
+                if(w==-1&&i+j==2&&board[(j+2)%3][(i+1)%3]==w&&board[(j+1)%3][(i+2)%3]==w){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+function checkWinHuman(board){
+    for(let i=0; i<3;i++){
+        for(let j=0;j<3;j++){
+            if (board[j][i]==1){
+                var x=board[(j+1)%3][i];
+                if(x==1&&board[(j+1)%3][i]==x&&board[(j+2)%3][i]==x){
+                    return 1;
+                }
+                var y=board[j][(i+1)%3];
+                if(y==1&&board[j][(i+1)%3]==y&&board[j][(i+2)%3]==y){
+                    return 1;
+                }
+                var z=board[(j+1)%3][(i+1)%3];
+                if(z==1&&i==j&&board[(j+1)%3][(i+1)%3]==z&&board[(j+2)%3][(i+2)%3]==z){
+                    return 1;
+                }
+                var w=board[(j+2)%3][(i+1)%3];
+                if(w==1&&i+j==2&&board[(j+2)%3][(i+1)%3]==w&&board[(j+1)%3][(i+2)%3]==w){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 function checkDoubleTrick(count,board){
