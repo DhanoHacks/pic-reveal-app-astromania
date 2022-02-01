@@ -1,7 +1,6 @@
 function resetBoard(){
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.beginPath();
     drawBoard();
     var row1=[0,0,0];
     var row2=[0,0,0];
@@ -21,15 +20,15 @@ function drawBoard()
         var R = canvas.width / 6 * 0.75;
         for (let i = 0; i < 2; i++) { //making board
             ctx.beginPath();
-            ctx.moveTo(canvas.width * (i+1) / 3, 0);
-            ctx.lineTo(canvas.width * (i+1) / 3, canvas.height);
+            ctx.moveTo(canvas.width * (i+1) / 3, 1);
+            ctx.lineTo(canvas.width * (i+1) / 3, canvas.height-1);
             ctx.strokeStyle = '#000000'; //black
             ctx.stroke();
         }
         for (let i = 0; i < 2; i++) { //making board pt. 2
             ctx.beginPath();
-            ctx.moveTo(0, canvas.height * (i+1) / 3);
-            ctx.lineTo(canvas.width, canvas.height * (i+1) / 3);
+            ctx.moveTo(1, canvas.height * (i+1) / 3);
+            ctx.lineTo(canvas.width-1, canvas.height * (i+1) / 3);
             ctx.strokeStyle = '#000000'; //black
             ctx.stroke();
         }
@@ -90,6 +89,7 @@ function drawX(i,j){
 function gameLogic(board,mouse_click_count){
     if (checkWinHuman(board)){
         document.getElementById("text").innerHTML="wow you actually won";
+        return 0;
     }
     var count=0;
     var turn_no=1;
@@ -102,6 +102,7 @@ function gameLogic(board,mouse_click_count){
     }
     if(turn_no==10){
         document.getElementById("text").innerHTML="its a tie!";
+        return 0;
     }
     if(board[1][1]==0&&count==0&&turn_no==2){
         drawX(1,1);
@@ -184,6 +185,7 @@ function gameLogic(board,mouse_click_count){
     }
     if (checkWinBot(board)){
         document.getElementById("text").innerHTML="you lost hahahaha";
+        return 0;
     }
 }
 
@@ -269,11 +271,11 @@ function checkDoubleTrick(count,board){
         return 1;
     }
     if(count==0&&board[0][2]==0&&board[0][1]==1&&board[1][2]==1&&board[0][0]==0&&board[2][2]==0){
-        drawX(0,2);
+        drawX(2,0);
         return 1;
     }
     if(count==0&&board[2][0]==0&&board[2][1]==1&&board[1][0]==1&&board[0][0]==0&&board[2][2]==0){
-        drawX(2,0);
+        drawX(0,2);
         return 1;
     }
     if(count==0&&board[2][2]==0&&board[2][1]==1&&board[1][2]==1&&board[0][2]==0&&board[2][0]==0){
