@@ -1,6 +1,7 @@
 <!DOCTYPE html>
   <html>
   <head>
+    <link rel="stylesheet" href="stylesheet.css">
   <meta charset=utf-8 />
   <title>TicTacToe</title>
   <style>
@@ -13,10 +14,9 @@
   </style>
   </head>
   <body>
-  <canvas id="game"></canvas>
-  <br>
-  <h2 id="text"></h2>
-  <input type="button" onclick="resetBoard();" id="start" value="Start Game!"></input>
-  <script src="main.js"></script>
+    <canvas id="game" style="display: none;"></canvas>
+    <br>
+    <input type="button" onclick="resetBoard();" id="start" value="Start Game!"></input>
+    <script src="main.js"></script>
   </body>
   </html>
