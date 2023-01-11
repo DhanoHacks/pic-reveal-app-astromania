@@ -1,21 +1,61 @@
 //initializing the game elements
 canvas=document.getElementById("game");
-var grid_x = 6;
-var grid_y = 4;
-canvas.width = 150*grid_x;
-canvas.height = 150*grid_y;
-const myImage = new Image(canvas.width, canvas.height);
-myImage.src = 'horsehead.png';
+var grid_x = 5;
+var grid_y = 5;
+canvas.width = 400*grid_x;
+canvas.height = 400*grid_y;
+const myImage = new Image(canvas.width, canvas.height, origin);
+myImage.src = 'eagle.png';
 let canvasElem = document.querySelector("canvas");
 var click_coords={x_coord:0,y_coord:0};
 var mouse_click_count=0;
 var board=[];
 for (let i = 0; i < grid_y; i++) { //making board
-    var row=[];
+    var row = [];
     for (let j = 0; j < grid_x; j++) { 
         row[j] = 1;
     }
     board[i] = row;
+}
+  
+var history = [];
+var hist_counter = 0;
+var temp_board = [];
+for(let a = 0; a < 5; a++){
+    var row = [];
+    for(let b = 0; b < 5; b++){
+        row[b] = board[a][b];
+    }
+    temp_board[a] = row;
+}
+history[hist_counter] = temp_board;
+hist_counter++;
+var order = [];
+for(let i = 0; i < 25; i++){
+    order[i] = i;
+}
+
+  function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+  shuffle(order);
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function resetBoard(){
@@ -61,7 +101,7 @@ function drawGrid()
     }
 }
 
-function drawBoard(mouse_click_count)
+function drawBoard()
 {
     drawGrid();
     var canvas = document.getElementById('game');
@@ -89,33 +129,67 @@ function coverBox(i,j){
     var boxWidth = canvas.width / grid_x - 2;
     var X = canvas.width * i / grid_x + 1;
     var Y = canvas.height * j / grid_y + 1;
-    ctx.fillStyle = '#FFFFFF'; //red
+    ctx.fillStyle = '#000000'; //red
     ctx.fillRect(X, Y, boxWidth, boxWidth);
 }
 
-
-function getMousePosition(canvas, event, click_coords) {
-    let rect = canvas.getBoundingClientRect();
-    var x = event.clientX - rect.left;
-    var y = event.clientY - rect.top;
-    click_coords.x_coord=x;
-    click_coords.y_coord=y;
+for(let k = 0; k < 25; k++){
+    let i = order[k] % 5;
+    let j = (order[k] - i) / 5;
+    if(board[j][i] == 0){
+        board[j][i] = 1;
+    }
+    else if(board[j][i] == 1){
+        board[j][i] = 0;
+    }
+    temp_board = [];
+    for(let a = 0; a < 5; a++){
+        var row = [];
+        for(let b = 0; b < 5; b++){
+            row[b] = board[a][b];
+        }
+        temp_board[a] = row;
+    }
+    history[hist_counter] = temp_board;
+    hist_counter++;
 }
 
-canvasElem.addEventListener("mousedown", function(e)
-{
-    var cnt=0;
-    for(let i=0; i<grid_x;i++){
-        for(let j=0;j<grid_y;j++){
-            if (board[j][i]!=1){
-                cnt++;
-            }
-        }
-    }
-    if(document.getElementById("start").value!="Start Game!"&&cnt!=grid_x*grid_y)
-        getMousePosition(canvasElem, e, click_coords);
-        var result=drawBoard(mouse_click_count);
-        if(result==1){
-            mouse_click_count++;
-        }
-});
+var curr_index = 0;
+
+function nextBoard(x){
+    curr_index+=x;
+    board = history[curr_index];
+    drawBoard();
+}
+
+function prevBoard(x){
+    curr_index-=x;
+    board = history[curr_index];
+    drawBoard();
+}
+
+// function getMousePosition(canvas, event, click_coords) {
+//     let rect = canvas.getBoundingClientRect();
+//     var x = event.clientX - rect.left;
+//     var y = event.clientY - rect.top;
+//     click_coords.x_coord=x;
+//     click_coords.y_coord=y;
+// }
+
+// canvasElem.addEventListener("mousedown", function(e)
+// {
+//     var cnt=0;
+//     for(let i=0; i<grid_x;i++){
+//         for(let j=0;j<grid_y;j++){
+//             if (board[j][i]!=1){
+//                 cnt++;
+//             }
+//         }
+//     }
+//     if(document.getElementById("start").value!="Start Game!"&&cnt!=grid_x*grid_y)
+//         getMousePosition(canvasElem, e, click_coords);
+//         var result=drawBoard(mouse_click_count);
+//         if(result==1){
+//             mouse_click_count++;
+//         }
+// });
