@@ -1,11 +1,11 @@
 //initializing the game elements
 canvas=document.getElementById("game");
-var grid_x = 5;
-var grid_y = 5;
-canvas.width = 400*grid_x;
-canvas.height = 400*grid_y;
+var grid_x = 6;
+var grid_y = 4;
+canvas.width = 166*grid_x;
+canvas.height = 166*grid_y;
 const myImage = new Image(canvas.width, canvas.height, origin);
-myImage.src = 'eagle.png';
+myImage.src = 'horsehead.png';
 let canvasElem = document.querySelector("canvas");
 var click_coords={x_coord:0,y_coord:0};
 var mouse_click_count=0;
@@ -21,9 +21,9 @@ for (let i = 0; i < grid_y; i++) { //making board
 var history = [];
 var hist_counter = 0;
 var temp_board = [];
-for(let a = 0; a < 5; a++){
+for(let a = 0; a < grid_y; a++){
     var row = [];
-    for(let b = 0; b < 5; b++){
+    for(let b = 0; b < grid_x; b++){
         row[b] = board[a][b];
     }
     temp_board[a] = row;
@@ -31,7 +31,7 @@ for(let a = 0; a < 5; a++){
 history[hist_counter] = temp_board;
 hist_counter++;
 var order = [];
-for(let i = 0; i < 25; i++){
+for(let i = 0; i < grid_x*grid_y; i++){
     order[i] = i;
 }
 
@@ -133,9 +133,9 @@ function coverBox(i,j){
     ctx.fillRect(X, Y, boxWidth, boxWidth);
 }
 
-for(let k = 0; k < 25; k++){
-    let i = order[k] % 5;
-    let j = (order[k] - i) / 5;
+for(let k = 0; k < grid_x*grid_y; k++){
+    let j = order[k] % grid_y;
+    let i = (order[k] - j) / grid_y;
     if(board[j][i] == 0){
         board[j][i] = 1;
     }
@@ -143,9 +143,9 @@ for(let k = 0; k < 25; k++){
         board[j][i] = 0;
     }
     temp_board = [];
-    for(let a = 0; a < 5; a++){
+    for(let a = 0; a < grid_y; a++){
         var row = [];
-        for(let b = 0; b < 5; b++){
+        for(let b = 0; b < grid_x; b++){
             row[b] = board[a][b];
         }
         temp_board[a] = row;
