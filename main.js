@@ -2,10 +2,10 @@
 canvas=document.getElementById("game");
 var grid_x = 6;
 var grid_y = 4;
-canvas.width = 166*grid_x;
-canvas.height = 166*grid_y;
+canvas.width = 133*grid_x;
+canvas.height = 133*grid_y;
 const myImage = new Image(canvas.width, canvas.height, origin);
-myImage.src = 'horsehead.png';
+myImage.src = 'pleiades.png';
 let canvasElem = document.querySelector("canvas");
 var click_coords={x_coord:0,y_coord:0};
 var mouse_click_count=0;
